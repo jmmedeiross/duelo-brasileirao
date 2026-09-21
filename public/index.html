@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Comparador de jogadores do Brasileirão Série A 2026 com estatísticas, radar de desempenho e últimos jogos." />
+  <meta name="theme-color" content="#090b0f" />
+  <title>Duelo Brasileirão 2026 — Comparador de Jogadores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=1.0.0" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <div>
+        <span id="seasonHeading" class="eyebrow">DUELO BRASILEIRÃO SÉRIE A / 2026</span>
+        <h1>Comparador de jogadores</h1>
+        <p>Dados da Série A 2026 via FotMob, com comparação da temporada ou dos jogos mais recentes.</p>
+      </div>
+      <span id="apiStatus" class="status-badge">Conectando…</span>
+    </header>
+
+    <section class="filters panel">
+      <div class="filter-group">
+        <label for="positionFilter">Posição</label>
+        <select id="positionFilter">
+          <option value="Todos">Todas</option>
+          <option value="Attacker">Atacante</option>
+          <option value="Midfielder">Meio-campista</option>
+          <option value="Defender">Defensor</option>
+          <option value="Goalkeeper">Goleiro</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="periodFilter">Período</label>
+        <select id="periodFilter">
+          <option id="seasonOption" value="season">Temporada 2026</option>
+          <option value="last10">Últimos 10 jogos do jogador</option>
+          <option value="last5">Últimos 5 jogos do jogador</option>
+        </select>
+      </div>
+    </section>
+
+    <div id="message" class="message hidden"></div>
+
+    <section class="duel-grid">
+      <article class="player-card panel player-a">
+        <div class="player-card__top">
+          <span class="player-tag">Jogador A</span>
+          <span class="accent-dot accent-a"></span>
+        </div>
+        <label for="teamASelect">Clube</label>
+        <select id="teamASelect"></select>
+        <label for="playerASelect">Jogador</label>
+        <select id="playerASelect"></select>
+        <div class="player-identity">
+          <div class="avatar" id="playerAAvatar">A</div>
+          <div>
+            <h2 id="playerAName">Escolha um jogador</h2>
+            <p id="playerAMeta">Clube • Posição</p>
+          </div>
+        </div>
+      </article>
+
+      <div class="vs">VS</div>
+
+      <article class="player-card panel player-b">
+        <div class="player-card__top">
+          <span class="player-tag">Jogador B</span>
+          <span class="accent-dot accent-b"></span>
+        </div>
+        <label for="teamBSelect">Clube</label>
+        <select id="teamBSelect"></select>
+        <label for="playerBSelect">Jogador</label>
+        <select id="playerBSelect"></select>
+        <div class="player-identity">
+          <div class="avatar" id="playerBAvatar">B</div>
+          <div>
+            <h2 id="playerBName">Escolha um jogador</h2>
+            <p id="playerBMeta">Clube • Posição</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="chart-panel panel">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">DESEMPENHO COMPARADO</span>
+          <h2>Radar de performance</h2>
+        </div>
+        <div class="legend">
+          <span><i class="legend-a"></i><strong id="legendA">Jogador A</strong></span>
+          <span><i class="legend-b"></i><strong id="legendB">Jogador B</strong></span>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="comparisonChart"></canvas>
+      </div>
+      <p class="chart-note">Radar: gols, assistências, passes, finalizações, desarmes e chutes no alvo. A escala é relativa entre os dois jogadores.</p>
+    </section>
+
+    <section class="stats-panel panel">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">NÚMEROS REAIS</span>
+          <h2>Comparação detalhada</h2>
+        </div>
+        <span id="matchesInfo" class="matches-info"></span>
+      </div>
+      <div id="statsTable" class="stats-table"></div>
+    </section>
+
+    <section id="recentMatchesPanel" class="recent-matches-panel panel hidden">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">PARTIDAS USADAS NO CÁLCULO</span>
+          <h2>Jogos considerados</h2>
+        </div>
+        <span class="matches-info">Clique em uma partida para abrir no FotMob</span>
+      </div>
+      <div class="recent-matches-grid">
+        <div class="recent-player recent-player-a">
+          <h3 id="recentAName">Jogador A</h3>
+          <div id="recentAMatches" class="recent-list"></div>
+        </div>
+        <div class="recent-player recent-player-b">
+          <h3 id="recentBName">Jogador B</h3>
+          <div id="recentBMatches" class="recent-list"></div>
+        </div>
+      </div>
+      <p class="recent-note">Nos filtros de últimos 5/10, o sistema usa as últimas aparições confirmadas do jogador na Série A 2026.</p>
+    </section>
+
+    <footer>
+      Projeto independente de portfólio. Fonte de dados: FotMob. Não afiliado ao FotMob.
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="app.js?v=1.0.0"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+{
+  "name": "duelo-brasileirao",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Comparador de jogadores do Brasileirão Série A 2026 com dados do FotMob",
+  "author": "João Medeiros",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jmmedeiross/duelo-brasileirao.git"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "check": "node --check server.js && node --check public/app.js",
+    "test": "npm run check"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "brasileirao",
+    "futebol",
+    "javascript",
+    "nodejs",
+    "fotmob",
+    "data-visualization",
+    "chartjs"
+  ]
+}
