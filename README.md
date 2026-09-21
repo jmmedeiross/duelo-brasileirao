@@ -29,17 +29,15 @@ O projeto possui front-end responsivo, backend em Node.js, integração com dado
 
 ## Arquitetura
 
-```mermaid
-flowchart LR
-    A[FotMob] --> B[Node.js / server.js]
-    B --> C[/api/teams]
-    B --> D[/api/squad]
-    B --> E[/api/player-stats]
-    C --> F[Front-end]
-    D --> F
-    E --> F
-    F --> G[Comparação + Radar + Jogos considerados]
-```
+
+No GitHub ela deverá renderizar mais ou menos assim:
+
+```text
+                 ┌─ /api/teams ───────┐
+FotMob → Node.js ├─ /api/squad ───────┼→ Front-end → Comparação
+                 └─ /api/player-stats ─┘              Radar
+                                                        ↓
+                                              Jogos considerados
 
 ## Como executar
 
