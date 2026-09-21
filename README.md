@@ -1,54 +1,173 @@
-# Duelo Brasileirão ⚽
+# ⚽ Duelo Brasileirão
 
-Comparador de jogadores do **Brasileirão Série A 2026** que reúne estatísticas de desempenho e permite analisar dois atletas lado a lado.
+Aplicação web para **comparação de jogadores do Brasileirão Série A 2026**, utilizando dados reais de desempenho.
 
-O projeto possui front-end responsivo, backend em Node.js, integração com dados do FotMob e visualização em gráfico radar com Chart.js.
+O projeto permite selecionar dois jogadores e comparar suas estatísticas através de um **gráfico radar**, além de visualizar os números detalhados e as partidas consideradas no período selecionado.
 
-## Funcionalidades
+## 🚀 Funcionalidades
 
-- seleção de dois clubes e dois jogadores;
-- filtro por posição;
-- comparação da temporada completa;
-- comparação pelas últimas 5 ou 10 aparições do jogador;
-- gráfico radar com gols, assistências, passes, finalizações, desarmes e chutes no alvo;
-- tabela com números absolutos, minutos e cartões;
-- lista das partidas usadas nos filtros de últimos jogos;
-- data, placar, adversários, minutos, gols e assistências das partidas consideradas;
-- cache em memória para reduzir chamadas repetidas à fonte;
-- fallbacks para lidar com diferentes formatos de resposta;
-- endpoints opcionais de diagnóstico para desenvolvimento.
+- Comparação entre dois jogadores
+- Dados do Brasileirão Série A 2026
+- Seleção por clube
+- Filtro por posição
+- Comparação da temporada completa
+- Comparação dos últimos 5 jogos do jogador
+- Comparação dos últimos 10 jogos do jogador
+- Visualização dos jogos considerados no cálculo
+- Gráfico radar para comparação de desempenho
+- Interface responsiva
+- Dados obtidos dinamicamente do FotMob
 
-## Tecnologias
+### Métricas do gráfico radar
 
-- **Node.js** — servidor HTTP e integração com a fonte de dados
-- **JavaScript** — lógica do front-end e tratamento dos dados
-- **HTML5 / CSS3** — interface responsiva
-- **Chart.js** — gráfico radar
-- **FotMob** — fonte externa de dados de futebol
-- **GitHub Actions** — validação automática de sintaxe
+O radar compara:
 
-## Arquitetura
+- Gols
+- Assistências
+- Passes
+- Finalizações
+- Desarmes
+- Chutes no alvo
 
+Os valores são normalizados para uma escala de **0 a 100**, permitindo comparar métricas que possuem escalas diferentes.
 
-No GitHub ela deverá renderizar mais ou menos assim:
+### Estatísticas adicionais
+
+Além do radar, a comparação numérica apresenta:
+
+- Minutos jogados
+- Cartões amarelos
+- Cartões vermelhos
+- Gols
+- Assistências
+- Passes
+- Finalizações
+- Desarmes
+- Chutes no alvo
+
+## 🕹️ Jogos considerados
+
+Ao selecionar:
+
+- **Últimos 5 jogos do jogador**
+- **Últimos 10 jogos do jogador**
+
+a aplicação exibe as partidas utilizadas para gerar as estatísticas.
+
+Cada partida pode apresentar informações como:
+
+- Data
+- Adversário
+- Placar
+- Mandante e visitante
+- Minutos jogados
+- Gols
+- Assistências
+
+Isso permite verificar exatamente quais partidas fazem parte do período analisado.
+
+## 🛠️ Tecnologias
+
+### Front-end
+
+- HTML5
+- CSS3
+- JavaScript
+- Chart.js
+
+### Back-end
+
+- Node.js
+- API REST
+- Fetch API
+- Manipulação e normalização de dados JSON
+
+### Fonte de dados
+
+Os dados esportivos são obtidos através de endpoints utilizados pelo **FotMob**.
+
+> Este é um projeto independente, criado para fins educacionais e de portfólio. Não possui vínculo ou afiliação oficial com FotMob, CBF ou Campeonato Brasileiro.
+
+## 🏗️ Arquitetura
+
+```mermaid
+flowchart LR
+    A["FotMob"] --> B["Node.js / server.js"]
+
+    B --> C["/api/teams"]
+    B --> D["/api/squad"]
+    B --> E["/api/player-stats"]
+
+    C --> F["Front-end"]
+    D --> F
+    E --> F
+
+    F --> G["Comparação"]
+    G --> H["Radar"]
+    G --> I["Estatísticas"]
+    G --> J["Jogos considerados"]
+```
+
+O navegador não acessa diretamente a fonte externa.
+
+O fluxo é:
 
 ```text
-                 ┌─ /api/teams ───────┐
-FotMob → Node.js ├─ /api/squad ───────┼→ Front-end → Comparação
-                 └─ /api/player-stats ─┘              Radar
-                                                        ↓
-                                              Jogos considerados
+FotMob
+   ↓
+Node.js
+   ↓
+API interna
+   ↓
+JavaScript
+   ↓
+Interface
+   ↓
+Comparação dos jogadores
+```
 
-## Como executar
+Essa separação permite tratar e padronizar os dados no servidor antes de enviá-los para a interface.
+
+## 📁 Estrutura do projeto
+
+```text
+duelo-brasileirao/
+│
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+│
+├── public/
+│   ├── app.js
+│   ├── index.html
+│   └── styles.css
+│
+├── .editorconfig
+├── .env.example
+├── .gitignore
+├── LICENSE
+├── package.json
+├── README.md
+├── server.js
+└── start-windows.bat
+```
+
+## ▶️ Como executar
 
 ### Requisitos
 
 - Node.js 20 ou superior
+- Git
 
-Clone o repositório e entre na pasta:
+Clone o repositório:
 
 ```bash
 git clone https://github.com/jmmedeiross/duelo-brasileirao.git
+```
+
+Entre na pasta:
+
+```bash
 cd duelo-brasileirao
 ```
 
@@ -58,102 +177,173 @@ Inicie o servidor:
 npm start
 ```
 
-Abra no navegador:
+No Windows também é possível utilizar:
+
+```powershell
+npm.cmd start
+```
+
+Depois acesse:
 
 ```text
 http://localhost:3001
 ```
 
-Não é necessário instalar dependências npm para a aplicação principal.
+## 🔌 API interna
 
-## Configuração opcional
+O back-end funciona como uma camada intermediária entre a interface e a fonte de dados.
 
-O projeto funciona com valores padrão, mas aceita variáveis de ambiente:
+Algumas das rotas utilizadas pelo projeto são:
 
-| Variável | Padrão | Uso |
-| --- | --- | --- |
-| `PORT` | `3001` | Porta do servidor local |
-| `SEASON` | `2026` | Ano exibido e consultado |
-| `FOTMOB_LEAGUE_ID` | `268` | ID da Série A no FotMob |
-| `FOTMOB_SEASON_ID` | `1000000388` | ID interno da temporada |
-| `FOTMOB_API_BASE` | automático | URL base alternativa |
-| `ENABLE_DEBUG_ROUTES` | `false` | Habilita `/api/debug-*` |
+```text
+GET /api/health
+GET /api/teams
+GET /api/squad
+GET /api/player-stats
+```
 
-No PowerShell, por exemplo:
+### Exemplo do fluxo
+
+Ao escolher um clube:
+
+```text
+Front-end
+   ↓
+/api/squad
+   ↓
+Node.js
+   ↓
+FotMob
+   ↓
+Elenco
+```
+
+Ao escolher um jogador:
+
+```text
+Front-end
+   ↓
+/api/player-stats
+   ↓
+Node.js
+   ↓
+FotMob
+   ↓
+Estatísticas
+   ↓
+Gráfico + tabela
+```
+
+## 📊 Normalização do radar
+
+As estatísticas possuem escalas muito diferentes.
+
+Por exemplo:
+
+```text
+Gols: 10
+Passes: 1200
+Desarmes: 40
+```
+
+Colocar esses valores diretamente no mesmo gráfico faria os passes dominarem completamente a visualização.
+
+Por isso, o sistema normaliza as métricas para uma escala relativa de:
+
+```text
+0 ───────────── 100
+```
+
+Os valores reais continuam disponíveis na tabela de comparação.
+
+## ⚙️ Configuração
+
+A aplicação utiliza por padrão:
+
+```text
+Porta: 3001
+Temporada: 2026
+Competição: Brasileirão Série A
+```
+
+Caso queira utilizar outra porta:
+
+### PowerShell
 
 ```powershell
 $env:PORT=3002
 npm.cmd start
 ```
 
-## Endpoints locais
+### Linux / macOS
 
-```text
-GET /api/health
-GET /api/teams
-GET /api/squad?team=TEAM_ID
-GET /api/player-stats?player=PLAYER_ID&team=TEAM_ID&period=season
-GET /api/player-stats?player=PLAYER_ID&team=TEAM_ID&period=last5
-GET /api/player-stats?player=PLAYER_ID&team=TEAM_ID&period=last10
+```bash
+PORT=3002 npm start
 ```
 
-Com `ENABLE_DEBUG_ROUTES=true`:
+## ✅ Validação
 
-```text
-GET /api/debug-source
-GET /api/debug-team?team=TEAM_ID
-```
+O projeto possui validação automática através do GitHub Actions.
 
-## Como funciona o radar
-
-As métricas possuem escalas muito diferentes. Um jogador pode ter mais de mil passes e apenas alguns gols. Por isso, o radar normaliza cada métrica entre os dois atletas para uma escala visual de **0 a 100**.
-
-Os valores absolutos continuam disponíveis na tabela logo abaixo do gráfico.
-
-## Últimos jogos
-
-Nos filtros de **últimos 5** e **últimos 10 jogos**, o sistema procura as últimas aparições confirmadas do jogador na Série A e soma apenas as estatísticas dessas partidas.
-
-A interface também exibe as partidas utilizadas no cálculo para que seja possível conferir a origem dos números.
-
-## Estrutura do projeto
-
-```text
-duelo-brasileirao/
-├── .github/
-│   └── workflows/
-│       └── ci.yml
-├── public/
-│   ├── app.js
-│   ├── index.html
-│   └── styles.css
-├── .editorconfig
-├── .env.example
-├── .gitignore
-├── LICENSE
-├── package.json
-├── README.md
-└── server.js
-```
-
-## Validação
-
-Para verificar a sintaxe dos arquivos JavaScript:
+Também é possível executar localmente:
 
 ```bash
 npm test
 ```
 
-O mesmo comando é executado automaticamente pelo GitHub Actions em pushes e pull requests para `main`.
+O objetivo é detectar problemas de sintaxe antes que alterações sejam integradas ao projeto.
 
-## Observações sobre a fonte de dados
+## 🎯 Objetivo do projeto
 
-Este é um projeto independente de portfólio e **não possui vínculo oficial com o FotMob**.
+O projeto foi desenvolvido como parte do meu portfólio de desenvolvimento Full Stack, com foco em demonstrar conhecimentos em:
 
-A aplicação consulta endpoints utilizados pela plataforma web do provedor. Como esses endpoints não fazem parte de uma API pública contratualmente estável, seu formato ou disponibilidade podem mudar. O backend inclui cache, tratamento de erros e fallbacks para reduzir o impacto dessas alterações.
+- Consumo de APIs
+- Desenvolvimento Back-end com Node.js
+- Desenvolvimento Front-end
+- JavaScript
+- Manipulação de JSON
+- Integração Front-end / Back-end
+- Visualização de dados
+- Tratamento e normalização de dados
+- Git e GitHub
+- Organização de projeto
+- Interface responsiva
 
-O uso e a redistribuição dos dados devem respeitar os termos aplicáveis do provedor.
+## 🔮 Próximas melhorias
 
-## Licença
+Algumas evoluções possíveis:
 
-Código disponibilizado sob a licença [MIT](LICENSE).
+- Comparação de mais de dois jogadores
+- Busca de jogador por nome
+- Ranking de jogadores por posição
+- Estatísticas por 90 minutos
+- Média por partida
+- Histórico de confrontos
+- Comparação entre temporadas
+- Página individual de jogador
+- Persistência de favoritos
+- Deploy público da aplicação
+- Testes automatizados adicionais
+
+## ⚠️ Observação sobre os dados
+
+O projeto utiliza dados provenientes de endpoints públicos utilizados pelo FotMob.
+
+Como esses endpoints não fazem parte de uma API pública oficialmente garantida para terceiros, sua estrutura pode sofrer alterações no futuro.
+
+O projeto possui tratamento e adaptação dos dados no back-end para reduzir o impacto dessas mudanças.
+
+## 👨‍💻 Autor
+
+**João Medeiros**
+
+Desenvolvedor Full Stack
+
+- GitHub: [github.com/jmmedeiross](https://github.com/jmmedeiross)
+- LinkedIn: [linkedin.com/in/jmmedeiross](https://linkedin.com/in/jmmedeiross)
+
+## 📄 Licença
+
+Este projeto está disponível sob a licença MIT.
+
+Consulte o arquivo [LICENSE](LICENSE) para mais informações.
