@@ -534,6 +534,13 @@ function mapGetByAliases(map, aliases) {
 
 function seasonStatsFromPlayerPage(page) {
   const { league, map } = mainLeagueStats(page.data || {});
+  const leagueId = Number(league.leagueId || league.tournamentId || league.id || 0);
+  const season = String(league.season || league.seasonName || league.year || '');
+  if (leagueId !== LEAGUE_ID || season !== SEASON_YEAR) {
+    const error = new Error(`Não foi possível confirmar a competição e temporada ${SEASON_YEAR} das estatísticas do jogador.`);
+    error.statusCode = 502;
+    throw error;
+  }
   const text = page.text || '';
   const perfIndex = Math.max(text.toLowerCase().indexOf('season performance'), text.toLowerCase().indexOf('desempenho na temporada'));
   const startAt = perfIndex >= 0 ? perfIndex : 0;
@@ -632,8 +639,8 @@ function collectMatchStatEntries(obj) {
 function pickMatchStat(entries, aliases, { useTotal = false } = {}) {
   const wanted = aliases.map(normalizeLabel);
   for (const e of entries) {
-    const hay = `${normalizeLabel(e.label)} ${normalizeLabel(e.key)}`;
-    if (wanted.some((w) => hay === w || hay.includes(w))) {
+    const labels = [normalizeLabel(e.label), normalizeLabel(e.key)];
+    if (wanted.some((w) => labels.includes(w))) {
       if (useTotal && e.total !== undefined) return num(e.total);
       return num(e.value);
     }
@@ -904,9 +911,11 @@ server.on('error', (error) => {
   throw error;
 });
 
-server.listen(PORT, () => {
+if (require.main === module) server.listen(PORT, () => {
   console.log(`Duelo Brasileirão 2026: http://localhost:${PORT}`);
   console.log(`Fonte: FotMob | liga ${LEAGUE_ID} | temporada ${SEASON_YEAR} | seasonId ${SEASON_INTERNAL_ID}.`);
   console.log('Nenhuma API key é necessária.');
   console.log(`Diagnóstico: ${ENABLE_DEBUG_ROUTES ? 'ativado' : 'desativado'} (ENABLE_DEBUG_ROUTES).`);
 });
+
+module.exports = { server, normalizeMatchPlayerStats, emptyStats, addStats, seasonStatsFromPlayerPage, isBrasileiraoMatch, handleApi };

@@ -291,7 +291,9 @@ Também é possível executar localmente:
 npm test
 ```
 
-O objetivo é detectar problemas de sintaxe antes que alterações sejam integradas ao projeto.
+A validação verifica sintaxe e executa testes de comportamento com dados locais: separação entre finalizações e chutes no alvo, estatísticas ausentes, somas e confirmação de competição/temporada. Os testes não dependem da disponibilidade do FotMob.
+
+Quando a fonte não fornece metadados que confirmem a competição e a temporada, a consulta da temporada retorna um erro em vez de apresentar números de outra competição. As amostras de teste são sintéticas e não representam respostas reais capturadas do FotMob.
 
 ## 🎯 Objetivo do projeto
 
