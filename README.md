@@ -4,6 +4,12 @@ Aplicação web para **comparação de jogadores do Brasileirão Série A 2026**
 
 O projeto permite selecionar dois jogadores e comparar suas estatísticas através de um **gráfico radar**, além de visualizar os números detalhados e as partidas consideradas no período selecionado.
 
+## Captura de tela
+
+Comparação real da temporada 2026 entre Pedro (Flamengo) e Vitor Roque (Palmeiras), registrada em 5 de outubro de 2026. Os números variam com a atualização da fonte.
+
+![Captura de tela](docs/images/comparacao.jpg)
+
 ## 🚀 Funcionalidades
 
 - Comparação entre dois jogadores

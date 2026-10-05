@@ -142,6 +142,7 @@ select:disabled { opacity: .55; cursor: wait; }
 }
 
 .message.hidden { display: none; }
+.recent-matches-panel.hidden { display: none; }
 
 .duel-grid {
   display: grid;
@@ -463,3 +464,4 @@ footer {
 @media (max-width: 760px) {
   .recent-matches-grid { grid-template-columns: 1fr; }
 }
+
